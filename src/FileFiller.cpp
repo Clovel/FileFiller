@@ -21,27 +21,34 @@
 /* Constructors */
 FileFiller::FileFiller() :
     mInputStr(""),
-    mOutputStr("")
+    mOutputStr(""),
+    mInputFilePath(""),
+    mOutputFilePath("")
 {
     /* Empty.
      * You'll have to use the setters */
 }
 
-FileFiller::FileFiller(const std::map<std::string, std::string> pReplacementValues) :
-    mInputStr(""),
-    mOutputStr(""),
-    mReplacementValues(pReplacementValues)
-{
-    /* Empty */
-}
 FileFiller::FileFiller(const std::map<std::string, std::string> pReplacementValues, const std::string &pInputStr) :
     mInputStr(pInputStr),
     mOutputStr(""),
-    mReplacementValues(pReplacementValues)
+    mReplacementValues(pReplacementValues),
+    mInputFilePath(""),
+    mOutputFilePath("")
 {
     /* Empty */
 }
-/* TODO : Constructor w/ file argument */
+
+FileFiller::FileFiller(const std::map<std::string, std::string> pReplacementValues, const std::string &pInputFilePath, const std::string &pOutputFilePath) :
+    mInputStr(""),
+    mOutputStr(""),
+    mReplacementValues(pReplacementValues),
+    mInputFilePath(pInputFilePath),
+    mOutputFilePath(pOutputFilePath)
+{
+    /* Empty */
+}
+
 
 /* Destructor */
 FileFiller::~FileFiller() {
@@ -55,6 +62,15 @@ std::string FileFiller::inputString(void) const {
 
 std::string FileFiller::outputString(void) const {
     return mOutputStr;
+}
+
+
+std::string FileFiller::inputFilePath(void) const {
+    return mInputFilePath;
+}
+
+std::string FileFiller::outputFilePath(void) const {
+    return mOutputFilePath;
 }
 
 std::map<std::string, std::string> FileFiller::replacementValues(void) const {
@@ -76,12 +92,20 @@ void FileFiller::setInputString(const std::string &pStr) {
     mInputStr = pStr;
 }
 
+void FileFiller::setInputFilePath(const std::string &pStr) {
+    mInputFilePath = pStr;
+}
+
+void FileFiller::setOutputFilePath(const std::string &pStr) {
+    mOutputFilePath = pStr;
+}
+
 void FileFiller::setReplacementValues(const std::map<std::string, std::string> &pMap) {
     mReplacementValues = pMap;
 }
 
 /* Parsers */
-int FileFiller::parse(std::string * const pOut) {
+int FileFiller::parseString(std::string * const pOut) {
     int lReplacements = 0;
 
     /* Create a copy of the input string.
@@ -125,14 +149,90 @@ int FileFiller::parse(std::string * const pOut) {
     return lReplacements;
 }
 
+int FileFiller::parseFile(std::string * const pOut) {
+    int lReplacements = 0;
+
+    /* Try to open the file */
+    std::ifstream lIFS(mInputFilePath.c_str(), std::ios::in);
+    if(!lIFS) {
+        std::cerr << "[ERROR] <FileFiller::parseFile> Failed to open the input file : " << mInputFilePath << std::endl;
+        return -1;
+    }
+
+    /* Get lenght of the file */
+    lIFS.seekg(0, lIFS.end);
+    const int lFileLength = lIFS.tellg();
+
+    /* Reset the position of the next character to the beginning of the file */
+    lIFS.seekg(0, lIFS.beg);
+
+    /* Read the whole file and set the contents as our input string */
+    {
+        char *lBuf = (char *)malloc(lFileLength);
+        lIFS.read(lBuf, lFileLength);
+        if(!lIFS) {
+            std::cerr << "[ERROR] <FileFiller::parseFile> Error occured while reading file contents" << std::endl;
+
+            /* Free the allocated memory */
+            free(lBuf);
+
+            /* Close the input file */
+            lIFS.close();
+
+            return -1;
+        }
+        mInputStr = std::string(lBuf);
+
+        /* Free the allocated memory */
+        free(lBuf);
+    }
+
+    /* Close the input file */
+    lIFS.close();
+
+    /* Parse the input string */
+    lReplacements = parseString(pOut);
+    if(0 > lReplacements) {
+        std::cerr << "[ERROR] <FileFiller::parseFile> Call to \"parseString\" failed" << std::endl;
+    }
+
+    /* Write the output file */
+    std::ofstream lOFS(mOutputFilePath.c_str(), std::ios::out | std::ios::trunc);
+    if(!lOFS) {
+        std::cerr << "[ERROR] <FileFiller::parseFile> Failed to open the output file : " << mOutputFilePath << std::endl;
+        return -1;
+    }
+
+    /* Write the output string in the output file */
+    lOFS << mOutputStr;
+
+    /* Close the output file */
+    lOFS.close();
+
+    return lReplacements;
+}
+
 int FileFiller::parseString(const std::map<std::string, std::string> pReplacementValues, const std::string &pInputStr, std::string &pOut) {
     /* Create a FileFiller instance */
     FileFiller lParser(pReplacementValues, pInputStr);
 
     /* Parse the input string */
-    int lReplacements = lParser.parse(&pOut);
+    int lReplacements = lParser.parseString(&pOut);
     if(0 > lReplacements) {
-        std::cerr << "[ERROR] <FileFiller::parseString> Call to \"parse\" failed" << std::endl;
+        std::cerr << "[ERROR] <FileFiller::parseString> Call to \"parseString\" failed" << std::endl;
+    }
+
+    return lReplacements;
+}
+
+int FileFiller::parseFile(const std::map<std::string, std::string> pReplacementValues, const std::string &pInputFilePath, const std::string &pOutputFilePath, std::string &pOut) {
+    /* Create a FileFiller instance */
+    FileFiller lParser(pReplacementValues, pInputFilePath, pOutputFilePath);
+
+    /* Parse the input string */
+    int lReplacements = lParser.parseFile(&pOut);
+    if(0 > lReplacements) {
+        std::cerr << "[ERROR] <FileFiller::parseFile> Call to \"parseFile\" failed" << std::endl;
     }
 
     return lReplacements;

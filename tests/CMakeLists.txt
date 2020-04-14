@@ -39,8 +39,22 @@ target_link_libraries(${CMAKE_PROJECT_NAME}-tests
 
 # Test definition -----------------------------------------
 #add_test( testname Exename arg1 arg2 ... )
-add_test( ${CMAKE_PROJECT_NAME}_test_default ${CMAKE_PROJECT_NAME}-tests -1 )
-add_test( ${CMAKE_PROJECT_NAME}_singleTagParsingTest ${CMAKE_PROJECT_NAME}-tests 0 )
-add_test( ${CMAKE_PROJECT_NAME}_duplicateTagParsingTest ${CMAKE_PROJECT_NAME}-tests 1 )
-add_test( ${CMAKE_PROJECT_NAME}_multipleTagParsingTest ${CMAKE_PROJECT_NAME}-tests 2 )
-add_test( ${CMAKE_PROJECT_NAME}_multipleTagParsingTest2 ${CMAKE_PROJECT_NAME}-tests 3 )
+add_test(${CMAKE_PROJECT_NAME}_test_default ${CMAKE_PROJECT_NAME}-tests -1)
+
+add_test(${CMAKE_PROJECT_NAME}_singleTagParsingTest ${CMAKE_PROJECT_NAME}-tests 0)
+add_test(${CMAKE_PROJECT_NAME}_duplicateTagParsingTest ${CMAKE_PROJECT_NAME}-tests 1)
+add_test(${CMAKE_PROJECT_NAME}_multipleTagParsingTest ${CMAKE_PROJECT_NAME}-tests 2)
+add_test(${CMAKE_PROJECT_NAME}_multipleTagParsingTest2 ${CMAKE_PROJECT_NAME}-tests 3)
+
+add_test(${CMAKE_PROJECT_NAME}_fileMultipleTagParsingTest ${CMAKE_PROJECT_NAME}-tests
+    4
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleTags/multipleTags.txt.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleTags/multipleTags-expected.txt
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleTags/multipleTags-output.txt
+)
+add_test(${CMAKE_PROJECT_NAME}_fileMultipleLinesParsingTest ${CMAKE_PROJECT_NAME}-tests
+    5
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines.txt.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-expected.txt
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-output.txt
+)
