@@ -1,0 +1,6 @@
+This file is an example of what @@PROJECT_NAME@@ can do.
+If everything goes according to plan, @@PROJECT_NAME@@ will create another file
+where the replacement tags are replaced by values set by the user. 
+@@PROJECT_NAME@@ is a library (@@LIBRARY_NAME@@) that allows 
+to configure input files like this one (@@INPUT_FILE@@) and output another
+file with replaced tags (@@OUTPUT_FILE@@).

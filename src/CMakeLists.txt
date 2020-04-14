@@ -36,14 +36,6 @@ message("MAIN SOURCES : ${SOURCES}")
 add_library(${CMAKE_PROJECT_NAME} SHARED
     ${SOURCES}
 )
-add_dependencies(${CMAKE_PROJECT_NAME}
-    initools
-    RESTServer
-)
-target_link_libraries(${CMAKE_PROJECT_NAME}
-    initools
-    RESTServer
-)
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES 
     PUBLIC_HEADER "${PUBLIC_HEADERS}"
 )

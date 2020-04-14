@@ -130,9 +130,6 @@ endif(PKG_CONFIG_FOUND)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/deps/initools/inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/deps/RESTServer/inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/deps/rapidjson/include
 )
 
 #------------------------------------------------------------------------------
@@ -140,7 +137,6 @@ include_directories(
 #------------------------------------------------------------------------------
 
 # Dependencies
-add_subdirectory(deps)
 
 # Main build
 add_subdirectory(src)
