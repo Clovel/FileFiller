@@ -50,7 +50,7 @@ A replacable tag looks like this :
 This sentence contains a replaceable tag : @@REPLACABLE_TAG@@
 ```
 
-Tour file can ultimately look like this :
+An input file can ultimately look like this :
 ```txt
 I like to eat @@FOOD_1@@ and @@FOOD_2@@ but I don't like @@FOOD_3@@.
 ```
