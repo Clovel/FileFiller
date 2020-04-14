@@ -24,7 +24,7 @@
 /* C-style wrapper ------------------------------------- */
 
 extern "C" {
-    int FileFiller_parseString(const char * const pMapping, const char * const pInputString, char ** const pOutputString) {
+    int FileFiller_parseString(const char * const pMapping, const char * const pInputString, char *pOutputString) {
         std::map<std::string, std::string> lMap;
         if(0 > FileFillerTagFactory::buildTagMap(std::string(pMapping), lMap)) {
             std::cerr << "[ERROR] <FileFiller_parseString> buildTagMap failed" << std::endl;
@@ -39,12 +39,12 @@ extern "C" {
             return lReplaced;
         }
 
-        (void)std::memcpy(*pOutputString, lOutput.c_str(), lOutput.size());
+        (void)std::memcpy(pOutputString, lOutput.c_str(), lOutput.size());
 
         return lReplaced;
     }
 
-    int FileFiller_parseFile(const char * const pMappingFilePath, const char * const pInputFilePath, const char * const pOutputFilePath, char ** const pOutputString) {
+    int FileFiller_parseFile(const char * const pMappingFilePath, const char * const pInputFilePath, const char * const pOutputFilePath, char *pOutputString) {
         std::map<std::string, std::string> lMap;
         if(0 > FileFillerTagFactory::parseTagMapFile(std::string(pMappingFilePath), lMap)) {
             std::cerr << "[ERROR] <FileFiller_parseFile> parseTagMapFile failed" << std::endl;

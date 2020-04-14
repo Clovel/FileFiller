@@ -30,7 +30,7 @@ extern "C" {
  * 
  * @return Number of replaced tags. Negative if failed.
  */
-int FileFiller_parseString(const char * const pMapping, const char * const pInputString, char ** const pOutputString);
+int FileFiller_parseString(const char * const pMapping, const char * const pInputString, char *pOutputString);
 
 
 /**
@@ -46,7 +46,7 @@ int FileFiller_parseString(const char * const pMapping, const char * const pInpu
  * 
  * @return Number of replaced tags. Negative if failed.
  */
-int FileFiller_parseFile(const char * const pMappingFilePath, const char * const pInputFilePath, const char * const pOutputFilePath, char ** const pOutputString);
+int FileFiller_parseFile(const char * const pMappingFilePath, const char * const pInputFilePath, const char * const pOutputFilePath, char *pOutputString);
 
 #ifdef __cplusplus
 }

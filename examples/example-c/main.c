@@ -37,10 +37,10 @@ int main(const int argc, const char * const * const argv) {
     const char *lOutputFilePath = argv[2U];
     const char *lTagFilePath = argv[3U];
 
-    char lOutputBuffer[4096U];
+    char *lOutputBuffer = malloc(4096U);
     memset(lOutputBuffer, 0, 4096U);
 
-    int lResult = FileFiller_parseFile(lTagFilePath, lInputFilePath, lOutputFilePath, (char ** const)&lOutputBuffer);
+    int lResult = FileFiller_parseFile(lTagFilePath, lInputFilePath, lOutputFilePath, lOutputBuffer);
     if(0 > lResult) {
         fprintf(stderr, "[ERROR] FileFiller_parseFile failed\n");
         return EXIT_FAILURE;
