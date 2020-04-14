@@ -82,7 +82,7 @@ static int readFile(const std::string &pFilePath, std::string &pOut) {
 }
 
 /* Factored test operations ---------------------------- */
-static void parseInputString(const std::string &pInputStr,
+static int parseInputString(const std::string &pInputStr,
     const std::string &pExpectedStr, 
     const int pExpectedReplacements, 
     const std::map<std::string, std::string> pMap)
@@ -104,9 +104,11 @@ static void parseInputString(const std::string &pInputStr,
 
     assert(lOutputStr2 == lOutputStr1);
     assert(pExpectedStr == lOutputStr2);
+
+    return lReplacements;
 }
 
-static void parseInputFile(const std::string &pInputFileStr,
+static int parseInputFile(const std::string &pInputFileStr,
     const std::string &pOutputFileStr,
     const std::string &pExpectedFile, 
     const int pExpectedReplacements, 
@@ -138,6 +140,8 @@ static void parseInputFile(const std::string &pInputFileStr,
 
     assert(lOutputStr2 == lOutputStr1);
     assert(lExpectedStr == lOutputStr2);
+
+    return lReplacements;
 }
 
 /* ----------------------------------------------------- */
@@ -160,7 +164,7 @@ static int singleTagParsingTest(void) {
     }
 
     /* Test our configuration */
-    parseInputString(lInputString, lExpectedOutputString, 1, lMap);
+    (void)parseInputString(lInputString, lExpectedOutputString, 1, lMap);
 
     return 0;
 }
@@ -182,7 +186,7 @@ static int duplicateTagParsingTest(void) {
     }
 
     /* Test our configuration */
-    parseInputString(lInputString, lExpectedOutputString, 3, lMap);
+    (void)parseInputString(lInputString, lExpectedOutputString, 3, lMap);
 
     return 0;
 }
@@ -206,7 +210,7 @@ static int multipleTagParsingTest(void) {
     }
 
     /* Test our configuration */
-    parseInputString(lInputString, lExpectedOutputString, 3, lMap);
+    (void)parseInputString(lInputString, lExpectedOutputString, 3, lMap);
 
     return 0;
 }
@@ -230,7 +234,7 @@ static int multipleTagParsingTest2(void) {
     }
 
     /* Test our configuration */
-    parseInputString(lInputString, lExpectedOutputString, 4, lMap);
+    (void)parseInputString(lInputString, lExpectedOutputString, 4, lMap);
 
     return 0;
 }
@@ -251,7 +255,7 @@ static int fileMultipleTagParsingTest(const std::string &pInputFilePath,
     }
 
     /* Test our configuration */
-    parseInputFile(pInputFilePath, pOutFilePath, pExpectedFilePath, 4, lMap);
+    (void)parseInputFile(pInputFilePath, pOutFilePath, pExpectedFilePath, 4, lMap);
 
     return 0;
 }
@@ -272,7 +276,7 @@ static int fileMultipleLinesParsingTest(const std::string &pInputFilePath,
     }
 
     /* Test our configuration */
-    parseInputFile(pInputFilePath, pOutFilePath, pExpectedFilePath, 12, lMap);
+    (void)parseInputFile(pInputFilePath, pOutFilePath, pExpectedFilePath, 12, lMap);
 
     return 0;
 }

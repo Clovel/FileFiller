@@ -8,3 +8,4 @@ add_definitions(-DEXAMPLE)
 
 # Sub-directories -----------------------------------------
 # Add subdirectories using add_subdirectory(example_program_1)
+add_subdirectory(example-c)
