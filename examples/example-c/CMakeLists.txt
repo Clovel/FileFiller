@@ -8,7 +8,7 @@ file(GLOB SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/*.c
 )
 
-message("C ExampleSOURCES : ${SOURCES}")
+message("C Example SOURCES : ${SOURCES}")
 
 # Link directories ----------------------------------------
 
