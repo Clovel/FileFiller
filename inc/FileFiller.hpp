@@ -11,8 +11,6 @@
 #include "APIExports.h"
 
 /* C++ system */
-#include <iostream>
-#include <fstream>
 #include <string>
 #include <map>
 

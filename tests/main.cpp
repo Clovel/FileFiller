@@ -6,6 +6,7 @@
 
 /* Includes -------------------------------------------- */
 #include "FileFiller.hpp"
+#include "FileFillerTagFactory.hpp"
 
 /* C++ system */
 #include <iostream>
@@ -153,7 +154,7 @@ static int singleTagParsingTest(void) {
     try {
         lMap["ACTION"] = "ski";
     } catch (const std::exception &e) {
-        std::cerr << "[ERROR] <stringParsingTest> Failed to insert pair into map" << std::endl << std::flush;
+        std::cerr << "[ERROR] <Tests::singleTagParsingTest> Failed to insert pair into map" << std::endl << std::flush;
         assert(false);
     }
 
@@ -175,7 +176,7 @@ static int duplicateTagParsingTest(void) {
     try {
         lMap["ACTION"] = "ski";
     } catch (const std::exception &e) {
-        std::cerr << "[ERROR] <stringParsingTest> Failed to insert pair into map" << std::endl << std::flush;
+        std::cerr << "[ERROR] <Tests::duplicateTagParsingTest> Failed to insert pair into map" << std::endl << std::flush;
         assert(false);
     }
 
@@ -199,7 +200,7 @@ static int multipleTagParsingTest(void) {
         lMap["ACTION2"] = "tennis";
         lMap["ACTION3"] = "foot";
     } catch (const std::exception &e) {
-        std::cerr << "[ERROR] <stringParsingTest> Failed to insert pair into map" << std::endl << std::flush;
+        std::cerr << "[ERROR] <Tests::multipleTagParsingTest> Failed to insert pair into map" << std::endl << std::flush;
         assert(false);
     }
 
@@ -223,7 +224,7 @@ static int multipleTagParsingTest2(void) {
         lMap["ACTION2"] = "tennis";
         lMap["ACTION3"] = "foot";
     } catch (const std::exception &e) {
-        std::cerr << "[ERROR] <stringParsingTest> Failed to insert pair into map" << std::endl << std::flush;
+        std::cerr << "[ERROR] <Tests::multipleTagParsingTest2> Failed to insert pair into map" << std::endl << std::flush;
         assert(false);
     }
 
@@ -244,7 +245,7 @@ static int fileMultipleTagParsingTest(const std::string &pInputFilePath,
         lMap["ACTION2"] = "tennis";
         lMap["ACTION3"] = "foot";
     } catch (const std::exception &e) {
-        std::cerr << "[ERROR] <stringParsingTest> Failed to insert pair into map" << std::endl << std::flush;
+        std::cerr << "[ERROR] <Tests::fileMultipleTagParsingTest> Failed to insert pair into map" << std::endl << std::flush;
         assert(false);
     }
 
@@ -265,12 +266,75 @@ static int fileMultipleLinesParsingTest(const std::string &pInputFilePath,
         lMap["ACTION2"] = "tennis";
         lMap["ACTION3"] = "foot";
     } catch (const std::exception &e) {
-        std::cerr << "[ERROR] <stringParsingTest> Failed to insert pair into map" << std::endl << std::flush;
+        std::cerr << "[ERROR] <Tests::fileMultipleLinesParsingTest> Failed to insert pair into map" << std::endl << std::flush;
         assert(false);
     }
 
     /* Test our configuration */
     parseInputFile(pInputFilePath, pOutFilePath, pExpectedFilePath, 12, lMap);
+
+    return 0;
+}
+
+static int buildTagMapParsingTest(void) {
+    const std::string lInputStr = R"=====(ACTION1;ski
+ACTION2;tennis
+ACTION3;foot
+)=====";
+
+    /* Build expected tag map */
+    std::map<std::string, std::string> lExpectedMap;
+    try {
+        lExpectedMap["ACTION1"] = "ski";
+        lExpectedMap["ACTION2"] = "tennis";
+        lExpectedMap["ACTION3"] = "foot";
+    } catch (const std::exception &e) {
+        std::cerr << "[ERROR] <Tests::buildTagMapParsingTest> Failed build expected map" << std::endl << std::flush;
+        assert(false);
+    }
+
+    std::map<std::string, std::string> lResultMap;
+    int lResult = FileFillerTagFactory::buildTagMap(lInputStr, lResultMap);
+    assert(0 == lResult);
+
+    for(const auto &lExpectedElmt : lExpectedMap) {
+        try {
+            assert(lExpectedElmt.second == lResultMap.at(lExpectedElmt.first));
+        } catch (const std::exception &e) {
+            std::cerr << "[DEBUG] <Tests::buildTagMapParsingTest> Failed to get tag " << lExpectedElmt.first << " value" << std::endl << std::flush;
+            assert(false);
+        }
+    }
+
+    return 0;
+}
+
+static int buildTagMapFileParsingTest(const std::string &pInputFilePath) {
+    std::string lInputString = "";
+    std::map<std::string, std::string> lResultMap;
+
+    /* Build expected tag map */
+    std::map<std::string, std::string> lExpectedMap;
+    try {
+        lExpectedMap["ACTION1"] = "ski";
+        lExpectedMap["ACTION2"] = "tennis";
+        lExpectedMap["ACTION3"] = "foot";
+    } catch (const std::exception &e) {
+        std::cerr << "[ERROR] <Tests::buildTagMapFileParsingTest> Failed build expected map" << std::endl << std::flush;
+        assert(false);
+    }
+
+    int lResult = FileFillerTagFactory::parseTagMapFile(pInputFilePath, lResultMap);
+    assert(0 == lResult);
+
+    for(const auto &lExpectedElmt : lExpectedMap) {
+        try {
+            assert(lExpectedElmt.second == lResultMap.at(lExpectedElmt.first));
+        } catch (const std::exception &e) {
+            std::cerr << "[DEBUG] <Tests::buildTagMapFileParsingTest> Failed to get tag " << lExpectedElmt.first << " value" << std::endl << std::flush;
+            assert(false);
+        }
+    }
 
     return 0;
 }
@@ -311,6 +375,12 @@ int main(const int argc, const char * const * const argv) {
             break;
         case 5:
             lResult = fileMultipleLinesParsingTest(std::string(argv[2U]), std::string(argv[3U]), std::string(argv[4U]));
+            break;
+        case 6:
+            lResult = buildTagMapParsingTest();
+            break;
+        case 7:
+            lResult = buildTagMapFileParsingTest(std::string(argv[2U]));
             break;
         default:
             (void)lResult;

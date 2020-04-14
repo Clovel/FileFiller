@@ -41,11 +41,13 @@ target_link_libraries(${CMAKE_PROJECT_NAME}-tests
 #add_test( testname Exename arg1 arg2 ... )
 add_test(${CMAKE_PROJECT_NAME}_test_default ${CMAKE_PROJECT_NAME}-tests -1)
 
+# FileFiller string parsing tests
 add_test(${CMAKE_PROJECT_NAME}_singleTagParsingTest ${CMAKE_PROJECT_NAME}-tests 0)
 add_test(${CMAKE_PROJECT_NAME}_duplicateTagParsingTest ${CMAKE_PROJECT_NAME}-tests 1)
 add_test(${CMAKE_PROJECT_NAME}_multipleTagParsingTest ${CMAKE_PROJECT_NAME}-tests 2)
 add_test(${CMAKE_PROJECT_NAME}_multipleTagParsingTest2 ${CMAKE_PROJECT_NAME}-tests 3)
 
+# FileFiller file parsing tests
 add_test(${CMAKE_PROJECT_NAME}_fileMultipleTagParsingTest ${CMAKE_PROJECT_NAME}-tests
     4
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleTags/multipleTags.txt.in
@@ -57,4 +59,11 @@ add_test(${CMAKE_PROJECT_NAME}_fileMultipleLinesParsingTest ${CMAKE_PROJECT_NAME
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines.txt.in
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-expected.txt
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-output.txt
+)
+
+# FileFillerTagFactory tests
+add_test(${CMAKE_PROJECT_NAME}_buildTagMapParsingTest ${CMAKE_PROJECT_NAME}-tests 6)
+add_test(${CMAKE_PROJECT_NAME}_buildTagMapFileParsingTest ${CMAKE_PROJECT_NAME}-tests
+    7
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/FileFillerTagFactory/tags.csv
 )

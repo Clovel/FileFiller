@@ -8,6 +8,8 @@
 #include "FileFiller.hpp"
 
 /* C++ system */
+#include <iostream>
+#include <fstream>
 #include <exception>
 
 /* Defines --------------------------------------------- */
@@ -194,6 +196,7 @@ int FileFiller::parseFile(std::string * const pOut) {
     lReplacements = parseString(pOut);
     if(0 > lReplacements) {
         std::cerr << "[ERROR] <FileFiller::parseFile> Call to \"parseString\" failed" << std::endl;
+        return lReplacements;
     }
 
     /* Write the output file */
