@@ -12,6 +12,10 @@
 #include <iostream>
 #include <string>
 
+/* C system */
+#include <cstring>
+#include <cassert>
+
 /* Defines --------------------------------------------- */
 
 /* Variable declarations ------------------------------- */
@@ -30,7 +34,7 @@ static void printUsage(const char * const pProgName)
 /* ----------------------------------------------------- */
 int main(const int argc, const char * const * const argv) {
     /* Check arguments */
-    if ((4 > argc) || (0 == strcmp(argv[1U], "--help"))) {
+    if ((4 > argc) || (0 == std::strcmp(argv[1U], "--help"))) {
         printUsage(argv[0]);
         return EXIT_FAILURE;
     }

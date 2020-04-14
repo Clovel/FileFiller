@@ -17,6 +17,7 @@
 
 /* C system */
 #include <cstring>
+#include <cassert>
 
 /* Defines --------------------------------------------- */
 
@@ -347,7 +348,7 @@ int main(const int argc, const char * const * const argv) {
     int32_t lTestNum;
     int16_t lResult = 0;
 
-    if ((argc < 2) || (strcmp(argv[1], "--help") == 0)) {
+    if ((argc < 2) || (std::strcmp(argv[1], "--help") == 0)) {
         printUsage(argv[0]);
         return -1;
     }
