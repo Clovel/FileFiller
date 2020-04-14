@@ -168,3 +168,28 @@ if(0 > parser.parseString(&outputString)) {
 
 /* Output file created */
 ```
+
+# Other languages
+## C
+A Simple API has been added to use this library with a C program.
+An example is available in `examples/example-c`.
+The example is compiled with the rest of the project.
+
+### Usage in C
+To use the C API, you just need to include the C header :
+```c
+#include "C_FileFiller.h"
+```
+
+## Swift
+In the `swift` direcotry you will find `FileFiller.swift`, a Swift API for the static `FileFiller` methods.
+There is a Swift example Xcode project in `examples/example-swift`.
+
+### Usage in Swift
+Once the library and the C header are added to your project, that you have set up the library paths, rpaths and include paths, just call the static methods of the FileFiller class. 
+The little subtlety is that you have to specify as an argument the size of the allocated memory for the output string.
+
+Here is an example call to `Filefiller.parseFile` :
+```swift
+let lResult: (Int32, String) = FileFiller.parseFile(inputFilePath: CommandLine.arguments[1], outputFilePath: CommandLine.arguments[2], tagFilePath: CommandLine.arguments[3], allocationSize: 4096);
+```
