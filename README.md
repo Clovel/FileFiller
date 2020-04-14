@@ -18,6 +18,15 @@ cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j$(nproc)
 ```
 
+To launch unit tests, follow these steps :
+```bash
+mkdir build
+cd build/
+cmake ..
+make -j$(nproc)
+ctest -VV       # -VV flag to see printouts. It can be omitted.
+```
+
 ___
 
 # Executable utility
