@@ -58,6 +58,9 @@ class API_EXPORT FileFiller {
             const std::string &pOutputFilePath,
             std::string * const pOut = nullptr);
 
+        /* File generators */
+        int generateOutputFile(const std::string &pOutputfilePath) const;
+        int generateOutputFile(void) const;
     protected:
     private:
         bool        mParsed;

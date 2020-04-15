@@ -249,3 +249,31 @@ int FileFiller::parseFile(const std::map<std::string, std::string> pReplacementV
 
     return lReplacements;
 }
+
+/* File generators */
+int FileFiller::generateOutputFile(const std::string &pOutputfilePath) const {
+    /* If the file is not parsed yet, abort */
+    if(!mParsed) {
+        std::cerr << "[ERROR] <FileFiller::generateOutputFile> Input file hasn't been parsed yet" << std::endl;
+        return -1;
+    }
+
+    /* Write the output file */
+    std::ofstream lOFS(pOutputfilePath.c_str(), std::ios::out | std::ios::trunc);
+    if(!lOFS) {
+        std::cerr << "[ERROR] <FileFiller::generateOutputFile> Failed to open the output file : " << pOutputfilePath << std::endl;
+        return -1;
+    }
+
+    /* Write the output string in the output file */
+    lOFS << mOutputStr;
+
+    /* Close the output file */
+    lOFS.close();
+
+    return 0;
+}
+
+int FileFiller::generateOutputFile(void) const {
+    return generateOutputFile(mOutputFilePath);
+}
