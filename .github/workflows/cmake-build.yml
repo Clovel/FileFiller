@@ -1,4 +1,4 @@
-name: Generator back-end
+name: CMake
 #author: Clovis Durand
 #description: GitHub action to build the OSCO-OD-Gen project
 
