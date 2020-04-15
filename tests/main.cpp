@@ -344,6 +344,35 @@ static int buildTagMapFileParsingTest(const std::string &pInputFilePath) {
     return 0;
 }
 
+static int tagMapFileParsingAndOutputGenerationTest(const std::string &pInputFilePath,
+    const std::string &pExpectedFilePath,
+    const std::string &pOutFilePath,
+    const std::string &pTagMappingFilePath)
+{
+    std::string lInputString = "";
+    
+    /* Create replacement map */
+    std::map<std::string, std::string> lMap;
+    int lResult = FileFillerTagFactory::parseTagMapFile(pTagMappingFilePath, lMap);
+    assert(0 == lResult);
+
+    /* Test our configuration */
+    (void)parseInputFile(pInputFilePath, pOutFilePath, pExpectedFilePath, 12, lMap);
+
+    return 0;
+}
+
+static int tagMapFileParsingAndOutputGenerationTest_missingTag(const std::string &pTagMappingFilePath) {
+    std::string lInputString = "";
+    
+    /* Create replacement map */
+    std::map<std::string, std::string> lMap;
+    int lResult = FileFillerTagFactory::parseTagMapFile(pTagMappingFilePath, lMap);
+    assert(-1 == lResult);
+
+    return 0;
+}
+
 /* ----------------------------------------------------- */
 /* Main test routine ----------------------------------- */
 /* ----------------------------------------------------- */
@@ -386,6 +415,21 @@ int main(const int argc, const char * const * const argv) {
             break;
         case 7:
             lResult = buildTagMapFileParsingTest(std::string(argv[2U]));
+            break;
+        case 8:
+            lResult = tagMapFileParsingAndOutputGenerationTest(std::string(argv[2U]), std::string(argv[3U]), std::string(argv[4U]), std::string(argv[5U]));
+            break;
+        case 9: /* Missing EoL semi-colon */
+            lResult = tagMapFileParsingAndOutputGenerationTest(std::string(argv[2U]), std::string(argv[3U]), std::string(argv[4U]), std::string(argv[5U]));
+            break;
+        case 10: /* Missing tag */
+            lResult = tagMapFileParsingAndOutputGenerationTest_missingTag(std::string(argv[2U]));
+            break;
+        case 11: /* Missing value w/ semi-colon */
+            lResult = tagMapFileParsingAndOutputGenerationTest(std::string(argv[2U]), std::string(argv[3U]), std::string(argv[4U]), std::string(argv[5U]));
+            break;
+        case 12: /* Missing value w/o semi-colon*/
+            lResult = tagMapFileParsingAndOutputGenerationTest(std::string(argv[2U]), std::string(argv[3U]), std::string(argv[4U]), std::string(argv[5U]));
             break;
         default:
             (void)lResult;

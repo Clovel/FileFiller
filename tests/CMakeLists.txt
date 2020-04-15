@@ -39,7 +39,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}-tests
 
 # Test definition -----------------------------------------
 #add_test( testname Exename arg1 arg2 ... )
-add_test(${CMAKE_PROJECT_NAME}_test_default ${CMAKE_PROJECT_NAME}-tests -1)
+# add_test(${CMAKE_PROJECT_NAME}_test_default ${CMAKE_PROJECT_NAME}-tests -1)
 
 # FileFiller string parsing tests
 add_test(${CMAKE_PROJECT_NAME}_singleTagParsingTest ${CMAKE_PROJECT_NAME}-tests 0)
@@ -66,4 +66,42 @@ add_test(${CMAKE_PROJECT_NAME}_buildTagMapParsingTest ${CMAKE_PROJECT_NAME}-test
 add_test(${CMAKE_PROJECT_NAME}_buildTagMapFileParsingTest ${CMAKE_PROJECT_NAME}-tests
     7
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/FileFillerTagFactory/tags.csv
+)
+
+# FileFillerTagFactory & FileFiller combined tests
+add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTest ${CMAKE_PROJECT_NAME}-tests
+    8
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines.txt.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-expected.txt
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-output.txt
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-tags.csv
+)
+
+add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingEoLSemiColon ${CMAKE_PROJECT_NAME}-tests
+    9
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines.txt.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-expected.txt
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-output.txt
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-tags-missing-eol-semi-colon.csv
+)
+
+add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingTag ${CMAKE_PROJECT_NAME}-tests
+    10
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-tags-missing-tag.csv
+)
+
+add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingValue ${CMAKE_PROJECT_NAME}-tests
+    11
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines.txt.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-expected-missing-value.txt
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-output.txt
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-tags-missing-value.csv
+)
+
+add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingValueAndSemiColon ${CMAKE_PROJECT_NAME}-tests
+    12
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines.txt.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-expected-missing-value.txt
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-output.txt
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-tags-missing-value-and-semi-colon.csv
 )

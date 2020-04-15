@@ -38,44 +38,57 @@ int FileFillerTagFactory::buildTagMap(const std::string &pStr, std::map<std::str
     std::istringstream lISS(pStr);
 
     /* Parse the string */
-    for(std::string lLine; std::getline(lISS, lLine); ) {
+    unsigned int lLineCount = 0U;
+    for(std::string lLine; std::getline(lISS, lLine); lLineCount++) {
         std::cout << "[DEBUG] <FileFillerTagFactory::buildTagMap> lLine = " << lLine << std::endl;
         std::string lTag = "", lVal = "";
         bool lTagFound = false, lValFound = false, lIgnoreLine = false;
-        size_t lPos = 0U, lOldPos = 0U;
+        size_t lPos = 0U;
 
         /* Find first ";" delimiter */
-        while((std::string::npos != lPos)) {
-            lOldPos = lPos;
-            lPos = lLine.find(';', lPos);
+        while((std::string::npos != lPos) && !(lTagFound && lValFound)) {
+            lPos = lLine.find(';');
 
             if(std::string::npos == lPos) {
                 /* Delimiter not found */
                 
-                /* Maybe the delimiter was omitted after le tage value */
-                if(lTagFound && !lValFound) {
-                    lVal = lLine.substr(lOldPos + 1U);
-                    lValFound = true;
-                } else {
+                /* If the tag wasn't found yet, this line doesn't have a ";" delimiter
+                 * Ignoring this line for now
+                 */
+                if(!lTagFound) {
                     lIgnoreLine = true;
+                    break;
                 }
-                break;
             }
 
             /* Delimiter found */
             if(!lTagFound) {
                 lTag = lLine.substr(0U, lPos);
+
+                /* Check if tag is empty */
+                if(lTag.empty()) {
+                    std::cerr << "[ERROR] <FileFillerTagFactory::buildTagMap> Tag is empty at line " << lLineCount << std::endl;
+                    return -1;
+                }
+
+                lLine = lLine.substr(lPos + 1U);
                 lTagFound = true;
                 std::cout << "[DEBUG] <FileFillerTagFactory::buildTagMap> Got tag : " << lTag << std::endl;
-            } else if (!lValFound) {
-                lVal = lLine.substr(lPos + 1U, lOldPos);
-                std::cout << "[DEBUG] <FileFillerTagFactory::buildTagMap> Got value : " << lVal << std::endl;
-                lValFound = true;
+                continue;
             }
-            
-            if(lTagFound && lValFound) {
-                /* Both were found */
-                break;
+
+            /* Tag was found previously */
+            if (!lValFound) {
+                lVal = lLine.substr(0U, lPos);
+
+                /* Check if value is empty */
+                if(lTag.empty()) {
+                    std::cerr << "[WARN ] <FileFillerTagFactory::buildTagMap> Value is empty at line " << lLineCount << std::endl;
+                }
+
+                lValFound = true;
+                std::cout << "[DEBUG] <FileFillerTagFactory::buildTagMap> Got value : " << lVal << std::endl;
+                continue;
             }
         }
 
