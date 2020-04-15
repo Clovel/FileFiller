@@ -1,7 +1,50 @@
 # FileFiller
-Fills files with the corresponding values. Should work like CMake's "configure" feature.
+Fills files with the corresponding values using `@@TAGS@@`. Should work in a similar fashion to CMake's "configure" feature.
+
+The `FileFiller` utility is available as a standalone program and a C++ library you can include in your own project.
+
+Using a Tag mapping string or file that looks like this :
+```csv
+USER_ID;5;
+USER_NAME;"Clovel";
+USER_EMAIL;"cd.clovel19@gmail.com";
+```
+You can configure a file, resulting in the following substitutions :
+<table>
+<tr>
+    <th>
+        Input file/string
+    </th>
+    <th>
+        Output file/string
+    </th>
+</tr>
+
+<tr>
+<td>
+<pre>
+{
+    "id": @@USER_ID@@,
+    "username": @@USER_NAME@@,
+    "email": @@USER_EMAIL@@
+}
+</pre>
+</td>
+<td>
+<pre>
+{
+    "id": 5,
+    "username": "Clovel",
+    "email": "cd.clovel19@gmail.com",
+}
+</pre>
+</td>
+</tr>
+</table>
 
 ## Build
+This project uses the CMake build tool. 
+
 To build the project, follow these steps :
 ```bash
 mkdir build
@@ -79,6 +122,47 @@ If a tag has `@@REMOVE_LINE@@` as it's value, then all lines in the input file c
 
 **WARNING** : The removal of line takes place before replacing the tags.
 This means that the "number of replacements" return value of the parse methods only counts replacement AFTER line removals.
+
+Using a Tag mapping string or file that looks like this :
+```csv
+USER_ID;5;
+USER_NAME;"Clovel";
+USER_EMAIL;"cd.clovel19@gmail.com";
+USER_CODE;@@REMOVE_LINE@@;
+```
+You can configure a file, resulting in the following substitutions :
+<table>
+<tr>
+    <th>
+        Input file/string
+    </th>
+    <th>
+        Output file/string
+    </th>
+</tr>
+
+<tr>
+<td>
+<pre>
+{
+    "id": @@USER_ID@@,
+    "username": @@USER_NAME@@,
+    "email": @@USER_EMAIL@@
+    "usercode": @@USER_CODE&&
+}
+</pre>
+</td>
+<td>
+<pre>
+{
+    "id": 5,
+    "username": "Clovel",
+    "email": "cd.clovel19@gmail.com",
+}
+</pre>
+</td>
+</tr>
+</table>
 
 ___
 
