@@ -177,7 +177,7 @@ int FileFiller::parseString(std::string * const pOut) {
     /* Procede to replace the tags */
     for(const auto &lElmt : mReplacementValues) {
         if("" == lElmt.first) {
-            std::cerr << "[WARN ] <FileFiller::parse> Empty tag detected, with replacmeent value set to " << lElmt.second << std::endl;
+            std::cerr << "[WARN ] <FileFiller::parseString> Empty tag detected, with replacmeent value set to " << lElmt.second << std::endl;
             continue;
         }
 
