@@ -32,6 +32,7 @@ class API_EXPORT FileFiller {
         virtual ~FileFiller();
 
         /* Getters */
+        bool        parsed(void) const;
         std::string inputString(void) const;
         std::string outputString(void) const;
         std::string inputFilePath(void) const;
@@ -59,6 +60,7 @@ class API_EXPORT FileFiller {
 
     protected:
     private:
+        bool        mParsed;
         std::string mInputStr;
         std::string mOutputStr;
 

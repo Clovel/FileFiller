@@ -22,6 +22,7 @@
 
 /* Constructors */
 FileFiller::FileFiller() :
+    mParsed(false),
     mInputStr(""),
     mOutputStr(""),
     mInputFilePath(""),
@@ -32,6 +33,7 @@ FileFiller::FileFiller() :
 }
 
 FileFiller::FileFiller(const std::map<std::string, std::string> pReplacementValues, const std::string &pInputStr) :
+    mParsed(false),
     mInputStr(pInputStr),
     mOutputStr(""),
     mReplacementValues(pReplacementValues),
@@ -42,6 +44,7 @@ FileFiller::FileFiller(const std::map<std::string, std::string> pReplacementValu
 }
 
 FileFiller::FileFiller(const std::map<std::string, std::string> pReplacementValues, const std::string &pInputFilePath, const std::string &pOutputFilePath) :
+    mParsed(false),
     mInputStr(""),
     mOutputStr(""),
     mReplacementValues(pReplacementValues),
@@ -58,6 +61,10 @@ FileFiller::~FileFiller() {
 }
 
 /* Getters */
+bool FileFiller::parsed(void) const {
+    return mParsed;
+}
+
 std::string FileFiller::inputString(void) const {
     return mInputStr;
 }
@@ -142,6 +149,8 @@ int FileFiller::parseString(std::string * const pOut) {
             ++lReplacements;
         }
     }
+
+    mParsed = true;
 
     /* Set the output string in the output argument */
     if(nullptr != pOut) {
