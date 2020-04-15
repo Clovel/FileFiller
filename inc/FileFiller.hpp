@@ -51,11 +51,11 @@ class API_EXPORT FileFiller {
         int parseFile(std::string * const pOut = nullptr);
         static int parseString(const std::map<std::string, std::string> pReplacementValues,
             const std::string &pInputStr,
-            std::string &pOut);
+            std::string * const pOut = nullptr);
         static int parseFile(const std::map<std::string, std::string> pReplacementValues,
             const std::string &pInputFilePath,
             const std::string &pOutputFilePath,
-            std::string &pOut);
+            std::string * const pOut = nullptr);
 
     protected:
     private:

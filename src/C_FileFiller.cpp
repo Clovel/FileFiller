@@ -34,7 +34,7 @@ extern "C" {
         std::string lOutput     = "";
         int         lReplaced   = 0;
 
-        if(0 > (lReplaced = FileFiller::parseString(lMap, std::string(pInputString), lOutput))) {
+        if(0 > (lReplaced = FileFiller::parseString(lMap, std::string(pInputString), &lOutput))) {
             std::cerr << "[ERROR] <FileFiller_parseString> parseString failed" << std::endl;
             return lReplaced;
         }
@@ -54,7 +54,7 @@ extern "C" {
         std::string lOutput     = "";
         int         lReplaced   = 0;
 
-        if(0 > (lReplaced = FileFiller::parseFile(lMap, std::string(pInputFilePath), std::string(pOutputFilePath), lOutput))) {
+        if(0 > (lReplaced = FileFiller::parseFile(lMap, std::string(pInputFilePath), std::string(pOutputFilePath), &lOutput))) {
             std::cerr << "[ERROR] <FileFiller_parseFile> parseFile failed" << std::endl;
             return lReplaced;
         }

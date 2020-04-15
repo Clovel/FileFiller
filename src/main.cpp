@@ -45,8 +45,7 @@ int main(const int argc, const char * const * const argv) {
 
     /* Build a replacement map */
     std::map<std::string, std::string> lMap;
-    int lResult = FileFillerTagFactory::parseTagMapFile(lTagFilePath, lMap);
-    if(0 > lResult) {
+    if(0 > FileFillerTagFactory::parseTagMapFile(lTagFilePath, lMap)) {
         std::cerr << "[ERROR] Failed to parse tag mapping file" << std::endl;
         exit(EXIT_FAILURE);
     }
@@ -55,7 +54,13 @@ int main(const int argc, const char * const * const argv) {
     std::string lOutput = "";
 
     /* Create a file filler */
-    FileFiller::parseFile(lMap, lInputFilePath, lOutputFilePath, lOutput);
+    const int lReplacements = FileFiller::parseFile(lMap, lInputFilePath, lOutputFilePath, &lOutput);
+    if(0 > lReplacements) {
+        std::cerr << "[ERROR] Failed to parse the input file" << std::endl;
+        exit(EXIT_FAILURE);
+    } else {
+        std::cerr << "Successfully replaced " << lReplacements << " tags." << std::endl;
+    }
 
     /* TODO : If verbose, print output */
 

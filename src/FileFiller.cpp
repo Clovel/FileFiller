@@ -215,12 +215,12 @@ int FileFiller::parseFile(std::string * const pOut) {
     return lReplacements;
 }
 
-int FileFiller::parseString(const std::map<std::string, std::string> pReplacementValues, const std::string &pInputStr, std::string &pOut) {
+int FileFiller::parseString(const std::map<std::string, std::string> pReplacementValues, const std::string &pInputStr, std::string * const pOut) {
     /* Create a FileFiller instance */
     FileFiller lParser(pReplacementValues, pInputStr);
 
     /* Parse the input string */
-    int lReplacements = lParser.parseString(&pOut);
+    int lReplacements = lParser.parseString(pOut);
     if(0 > lReplacements) {
         std::cerr << "[ERROR] <FileFiller::parseString> Call to \"parseString\" failed" << std::endl;
     }
@@ -228,12 +228,12 @@ int FileFiller::parseString(const std::map<std::string, std::string> pReplacemen
     return lReplacements;
 }
 
-int FileFiller::parseFile(const std::map<std::string, std::string> pReplacementValues, const std::string &pInputFilePath, const std::string &pOutputFilePath, std::string &pOut) {
+int FileFiller::parseFile(const std::map<std::string, std::string> pReplacementValues, const std::string &pInputFilePath, const std::string &pOutputFilePath, std::string * const pOut) {
     /* Create a FileFiller instance */
     FileFiller lParser(pReplacementValues, pInputFilePath, pOutputFilePath);
 
     /* Parse the input string */
-    int lReplacements = lParser.parseFile(&pOut);
+    int lReplacements = lParser.parseFile(pOut);
     if(0 > lReplacements) {
         std::cerr << "[ERROR] <FileFiller::parseFile> Call to \"parseFile\" failed" << std::endl;
     }
