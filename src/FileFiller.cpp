@@ -13,7 +13,6 @@
 #include <exception>
 
 /* Defines --------------------------------------------- */
-#define LINE_REMOVAL_VAL "@@REMOVE_LINE@@"
 
 /* Variable declarations ------------------------------- */
 
