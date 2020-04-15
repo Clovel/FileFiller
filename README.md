@@ -74,6 +74,12 @@ Resulting in the following output file :
 I like to eat apples and oranges but I don't like pears.
 ```
 
+## Remove line
+If a tag has `@@REMOVE_LINE@@` as it's value, then all lines in the input file containing this tag will be removed in the output.
+
+**WARNING** : The removal of line takes place before replacing the tags.
+This means that the "number of replacements" return value of the parse methods only counts replacement AFTER line removals.
+
 ___
 
 # FileFiller library

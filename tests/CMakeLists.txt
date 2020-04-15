@@ -77,7 +77,7 @@ add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTest ${CMAKE_
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-tags.csv
 )
 
-add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingEoLSemiColon ${CMAKE_PROJECT_NAME}-tests
+add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingEoLSemiColonTest ${CMAKE_PROJECT_NAME}-tests
     9
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines.txt.in
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-expected.txt
@@ -85,12 +85,12 @@ add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingEo
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-tags-missing-eol-semi-colon.csv
 )
 
-add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingTag ${CMAKE_PROJECT_NAME}-tests
+add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingTagTest ${CMAKE_PROJECT_NAME}-tests
     10
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-tags-missing-tag.csv
 )
 
-add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingValue ${CMAKE_PROJECT_NAME}-tests
+add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingValueTest ${CMAKE_PROJECT_NAME}-tests
     11
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines.txt.in
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-expected-missing-value.txt
@@ -98,10 +98,27 @@ add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingVa
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-tags-missing-value.csv
 )
 
-add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingValueAndSemiColon ${CMAKE_PROJECT_NAME}-tests
+add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingValueAndSemiColonTest ${CMAKE_PROJECT_NAME}-tests
     12
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines.txt.in
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-expected-missing-value.txt
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-output.txt
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-tags-missing-value-and-semi-colon.csv
+)
+
+# REMOVE_LINE
+add_test(${CMAKE_PROJECT_NAME}_removeLineTest ${CMAKE_PROJECT_NAME}-tests
+    13
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/removeLines/removeLines.txt.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/removeLines/removeLines-expected.txt
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/removeLines/removeLines-output.txt
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/removeLines/removeLines-tags.csv
+)
+
+add_test(${CMAKE_PROJECT_NAME}_removeLineTest_EoF_NL ${CMAKE_PROJECT_NAME}-tests
+    14
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/removeLines-EoF-NL/removeLines.txt.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/removeLines-EoF-NL/removeLines-expected.txt
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/removeLines-EoF-NL/removeLines-output.txt
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/removeLines-EoF-NL/removeLines-tags.csv
 )

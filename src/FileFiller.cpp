@@ -13,6 +13,7 @@
 #include <exception>
 
 /* Defines --------------------------------------------- */
+#define LINE_REMOVAL_VAL "@@REMOVE_LINE@@"
 
 /* Variable declarations ------------------------------- */
 
@@ -122,18 +123,25 @@ int FileFiller::parseString(std::string * const pOut) {
      */
     std::string lTempInput = mInputStr;
 
-    /* Procede to replace the tags */
+    /* Remove lines with tags that have the @@REMOVE_LINE@@ value */
     for(const auto &lElmt : mReplacementValues) {
         if("" == lElmt.first) {
-            std::cerr << "[WARN ] <FileFiller::parse> Empty tag detected, with replacmeent value set to " << lElmt.second << std::endl;
             continue;
         }
 
-        /* Get tag to replace */
         const std::string lTag = "@@" + lElmt.first + "@@";
+        
+        /* Check for the line removal value */
+        bool lRemoveLine = (LINE_REMOVAL_VAL == lElmt.second);
+        if(!lRemoveLine) {
+            continue;
+        }
 
-        /* Find tag */
-        size_t lPos = 0;
+        /* We must remove all lines containing this tag */
+        std::cerr << "[WARN ] <FileFiller::parse> Lines containing tag " << lTag << " are to be deleted" << std::endl;
+
+        /* Find tag in file */
+        size_t lPos = 0U, lFirstNL = 0U, lSecondNL = 0U;
         while(std::string::npos != lPos) {
             /* Search for the tag */
             lPos = lTempInput.find(lTag, lPos);
@@ -144,6 +152,50 @@ int FileFiller::parseString(std::string * const pOut) {
                 break;
             }
 
+            /* Tag found, remove line */
+            lFirstNL  = lTempInput.rfind('\n', lPos);
+            lSecondNL = lTempInput.find('\n', lPos);
+
+            /* First line case */
+            if(std::string::npos == lFirstNL) {
+                lFirstNL = 0U;
+            }
+
+            /* Erase line */
+            if(std::string::npos == lSecondNL) {
+                lTempInput = lTempInput.erase(lFirstNL, lSecondNL);
+            } else {
+                if(0U == lFirstNL) {
+                    lTempInput = lTempInput.erase(0U, lSecondNL + 1U);
+                } else {
+                    lTempInput = lTempInput.erase(lFirstNL, lSecondNL - lFirstNL);
+                }
+            }
+        }
+    }
+
+    /* Procede to replace the tags */
+    for(const auto &lElmt : mReplacementValues) {
+        if("" == lElmt.first) {
+            std::cerr << "[WARN ] <FileFiller::parse> Empty tag detected, with replacmeent value set to " << lElmt.second << std::endl;
+            continue;
+        }
+
+        /* Get tag to replace */
+        const std::string lTag = "@@" + lElmt.first + "@@";
+
+        /* Find tag in file */
+        size_t lPos = 0U;
+        while(std::string::npos != lPos) {
+            /* Search for the tag */
+            lPos = lTempInput.find(lTag, lPos);
+
+            /* Have we found the tag ? */
+            if(std::string::npos == lPos) {
+                /* Tag not found */
+                break;
+            }
+            
             /* Tag found, replace it */
             mOutputStr = lTempInput.replace(lPos, lTag.size(), lElmt.second);
             ++lReplacements;
