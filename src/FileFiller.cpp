@@ -114,6 +114,56 @@ void FileFiller::setReplacementValues(const std::map<std::string, std::string> &
 }
 
 /* Parsers */
+int FileFiller::readFile(const std::string * const pInputFilePath, std::string * const pOut) {
+    if(nullptr != pInputFilePath) {
+        mInputFilePath = *pInputFilePath;
+    }
+
+    /* Try to open the file */
+    std::ifstream lIFS(mInputFilePath.c_str(), std::ios::in);
+    if(!lIFS) {
+        std::cerr << "[ERROR] <FileFiller::parseFile> Failed to open the input file : " << mInputFilePath << std::endl;
+        return -1;
+    }
+    
+    /* Temporary string to hold the contents of the file */
+    std::string lContents; /* Not initialized on purpose */
+
+    /* Get lenght of the file */
+    lIFS.seekg(0, lIFS.end);
+
+    /* Change the allocated memory size for the content string */
+    lContents.resize(lIFS.tellg());
+
+    /* Reset the position of the next character to the beginning of the file */
+    lIFS.seekg(0, lIFS.beg);
+
+    /* Read the whole file and set the contents as our input string */
+    {
+        lIFS.read(&lContents[0U], lContents.size());
+        if(!lIFS) {
+            std::cerr << "[ERROR] <FileFiller::parseFile> Error occured while reading file contents" << std::endl;
+
+            /* Close the input file */
+            lIFS.close();
+
+            return -1;
+        }
+
+        /* Set the contents of the file as the input string */
+        mInputStr = lContents;
+    }
+
+    /* Close the input file */
+    lIFS.close();
+
+    if(nullptr != pOut) {
+        *pOut = mInputStr;
+    }
+
+    return 0;
+}
+
 int FileFiller::parseString(std::string * const pOut) {
     int lReplacements = 0;
 
@@ -214,43 +264,10 @@ int FileFiller::parseString(std::string * const pOut) {
 int FileFiller::parseFile(std::string * const pOut) {
     int lReplacements = 0;
 
-    /* Try to open the file */
-    std::ifstream lIFS(mInputFilePath.c_str(), std::ios::in);
-    if(!lIFS) {
-        std::cerr << "[ERROR] <FileFiller::parseFile> Failed to open the input file : " << mInputFilePath << std::endl;
-        return -1;
+    /* Read input file */
+    if(0 > readFile()) {
+        std::cerr << "[ERROR] <FileFiller::parseFile> readFile failed" << std::endl;
     }
-
-    /* Get lenght of the file */
-    lIFS.seekg(0, lIFS.end);
-    const int lFileLength = lIFS.tellg();
-
-    /* Reset the position of the next character to the beginning of the file */
-    lIFS.seekg(0, lIFS.beg);
-
-    /* Read the whole file and set the contents as our input string */
-    {
-        char *lBuf = (char *)malloc(lFileLength);
-        lIFS.read(lBuf, lFileLength);
-        if(!lIFS) {
-            std::cerr << "[ERROR] <FileFiller::parseFile> Error occured while reading file contents" << std::endl;
-
-            /* Free the allocated memory */
-            free(lBuf);
-
-            /* Close the input file */
-            lIFS.close();
-
-            return -1;
-        }
-        mInputStr = std::string(lBuf);
-
-        /* Free the allocated memory */
-        free(lBuf);
-    }
-
-    /* Close the input file */
-    lIFS.close();
 
     /* Parse the input string */
     lReplacements = parseString(pOut);

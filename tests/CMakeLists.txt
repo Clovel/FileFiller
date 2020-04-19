@@ -42,35 +42,35 @@ target_link_libraries(${CMAKE_PROJECT_NAME}-tests
 # add_test(${CMAKE_PROJECT_NAME}_test_default ${CMAKE_PROJECT_NAME}-tests -1)
 
 # FileFiller string parsing tests
-add_test(${CMAKE_PROJECT_NAME}_singleTagParsingTest ${CMAKE_PROJECT_NAME}-tests 0)
-add_test(${CMAKE_PROJECT_NAME}_duplicateTagParsingTest ${CMAKE_PROJECT_NAME}-tests 1)
-add_test(${CMAKE_PROJECT_NAME}_multipleTagParsingTest ${CMAKE_PROJECT_NAME}-tests 2)
-add_test(${CMAKE_PROJECT_NAME}_multipleTagParsingTest2 ${CMAKE_PROJECT_NAME}-tests 3)
+add_test(${CMAKE_PROJECT_NAME}_singleTagParsingTest ${CMAKE_PROJECT_NAME}-tests 1)
+add_test(${CMAKE_PROJECT_NAME}_duplicateTagParsingTest ${CMAKE_PROJECT_NAME}-tests 2)
+add_test(${CMAKE_PROJECT_NAME}_multipleTagParsingTest ${CMAKE_PROJECT_NAME}-tests 3)
+add_test(${CMAKE_PROJECT_NAME}_multipleTagParsingTest2 ${CMAKE_PROJECT_NAME}-tests 4)
 
 # FileFiller file parsing tests
 add_test(${CMAKE_PROJECT_NAME}_fileMultipleTagParsingTest ${CMAKE_PROJECT_NAME}-tests
-    4
+    5
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleTags/multipleTags.txt.in
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleTags/multipleTags-expected.txt
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleTags/multipleTags-output.txt
 )
 add_test(${CMAKE_PROJECT_NAME}_fileMultipleLinesParsingTest ${CMAKE_PROJECT_NAME}-tests
-    5
+    6
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines.txt.in
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-expected.txt
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-output.txt
 )
 
 # FileFillerTagFactory tests
-add_test(${CMAKE_PROJECT_NAME}_buildTagMapParsingTest ${CMAKE_PROJECT_NAME}-tests 6)
+add_test(${CMAKE_PROJECT_NAME}_buildTagMapParsingTest ${CMAKE_PROJECT_NAME}-tests 7)
 add_test(${CMAKE_PROJECT_NAME}_buildTagMapFileParsingTest ${CMAKE_PROJECT_NAME}-tests
-    7
+    8
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/FileFillerTagFactory/tags.csv
 )
 
 # FileFillerTagFactory & FileFiller combined tests
 add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTest ${CMAKE_PROJECT_NAME}-tests
-    8
+    9
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines.txt.in
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-expected.txt
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-output.txt
@@ -78,7 +78,7 @@ add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTest ${CMAKE_
 )
 
 add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingEoLSemiColonTest ${CMAKE_PROJECT_NAME}-tests
-    9
+    10
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines.txt.in
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-expected.txt
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-output.txt
@@ -86,12 +86,12 @@ add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingEo
 )
 
 add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingTagTest ${CMAKE_PROJECT_NAME}-tests
-    10
+    11
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-tags-missing-tag.csv
 )
 
 add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingValueTest ${CMAKE_PROJECT_NAME}-tests
-    11
+    12
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines.txt.in
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-expected-missing-value.txt
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-output.txt
@@ -99,7 +99,7 @@ add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingVa
 )
 
 add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingValueAndSemiColonTest ${CMAKE_PROJECT_NAME}-tests
-    12
+    13
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines.txt.in
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-expected-missing-value.txt
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/multipleLines/multipleLines-output.txt
@@ -108,7 +108,7 @@ add_test(${CMAKE_PROJECT_NAME}_tagMapFileParsingAndOutputGenerationTestMissingVa
 
 # REMOVE_LINE
 add_test(${CMAKE_PROJECT_NAME}_removeLineTest ${CMAKE_PROJECT_NAME}-tests
-    13
+    14
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/removeLines/removeLines.txt.in
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/removeLines/removeLines-expected.txt
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/removeLines/removeLines-output.txt
@@ -116,9 +116,51 @@ add_test(${CMAKE_PROJECT_NAME}_removeLineTest ${CMAKE_PROJECT_NAME}-tests
 )
 
 add_test(${CMAKE_PROJECT_NAME}_removeLineTest_EoF_NL ${CMAKE_PROJECT_NAME}-tests
-    14
+    15
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/removeLines-EoF-NL/removeLines.txt.in
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/removeLines-EoF-NL/removeLines-expected.txt
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/removeLines-EoF-NL/removeLines-output.txt
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/removeLines-EoF-NL/removeLines-tags.csv
+)
+
+add_test(${CMAKE_PROJECT_NAME}_readFileTest ${CMAKE_PROJECT_NAME}-tests
+    16
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/readFile/OSCOGenOD_Values.in.c
+)
+
+add_test(${CMAKE_PROJECT_NAME}_readFileTest2 ${CMAKE_PROJECT_NAME}-tests
+    17
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/readFile/OSCOGenOD_MaxValues.in.c
+)
+
+add_test(${CMAKE_PROJECT_NAME}_readFileTest3 ${CMAKE_PROJECT_NAME}-tests
+    18
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/readFile/OSCOGenOD_Values.in.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/readFile/OSCOGenOD_MaxValues.in.c
+)
+
+add_test(${CMAKE_PROJECT_NAME}_readFileTest4-1 ${CMAKE_PROJECT_NAME}-tests
+    19
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/readFile/OSCOGenOD_Values.in.c
+)
+
+add_test(${CMAKE_PROJECT_NAME}_readFileTest4-2 ${CMAKE_PROJECT_NAME}-tests
+    20
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/readFile/OSCOGenOD_MaxValues.in.c
+)
+
+add_test(${CMAKE_PROJECT_NAME}_UTreadFileTest1-1 ${CMAKE_PROJECT_NAME}-tests
+    21
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/readFile/OSCOGenOD_Values.in.c
+)
+
+add_test(${CMAKE_PROJECT_NAME}_UTreadFileTest1-2 ${CMAKE_PROJECT_NAME}-tests
+    22
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/readFile/OSCOGenOD_MaxValues.in.c
+)
+
+add_test(${CMAKE_PROJECT_NAME}_UTreadFileTest2 ${CMAKE_PROJECT_NAME}-tests
+    23
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/readFile/OSCOGenOD_Values.in.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/readFile/OSCOGenOD_MaxValues.in.c
 )

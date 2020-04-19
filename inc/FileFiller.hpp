@@ -49,6 +49,7 @@ class API_EXPORT FileFiller {
         void setReplacementValues(const std::map<std::string, std::string> &pMap);
 
         /* Parsers */
+        int readFile(const std::string * const pInputFilePath = nullptr, std::string * const pOut = nullptr);
         int parseString(std::string * const pOut = nullptr);
         int parseFile(std::string * const pOut = nullptr);
         static int parseString(const std::map<std::string, std::string> pReplacementValues,
