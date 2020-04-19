@@ -130,11 +130,11 @@ static int parseInputString(const std::string &pInputStr,
     int lReplacements = lParser.parseString(&lOutputStr1);
     assert(pExpectedReplacements == lReplacements);
 
-    std::cerr << "[ERROR] <Tests::parseInputString> Expected string = " << pExpectedStr << std::endl << std::flush;
-    std::cerr << "[ERROR] <Tests::parseInputString> Got lOutputStr1 = " << lOutputStr1 << std::endl << std::flush;
+    std::cerr << "[INFO ] <Tests::parseInputString> Expected string = " << pExpectedStr << std::endl << std::flush;
+    std::cerr << "[INFO ] <Tests::parseInputString> Got lOutputStr1 = " << lOutputStr1 << std::endl << std::flush;
 
     lOutputStr2 = lParser.outputString();
-    std::cerr << "[ERROR] <Tests::parseInputString> Got lOutputStr2 = " << lOutputStr2 << std::endl << std::flush;
+    std::cerr << "[INFO ] <Tests::parseInputString> Got lOutputStr2 = " << lOutputStr2 << std::endl << std::flush;
 
     assert(lOutputStr2 == lOutputStr1);
     assert(pExpectedStr == lOutputStr2);
@@ -165,12 +165,12 @@ static int parseInputFile(const std::string &pInputFileStr,
     std::string lOutputFileContents = "";
     assert(0 == readFile(pOutputFileStr, lOutputFileContents));
 
-    std::cerr << "[ERROR] <Tests::parseInputString> Expected string         = " << lExpectedStr << std::endl << std::flush;
-    std::cerr << "[ERROR] <Tests::parseInputString> Got lOutputStr1         = " << lOutputStr1 << std::endl << std::flush;
+    std::cerr << "[INFO ] <Tests::parseInputString> Expected string         = " << lExpectedStr << std::endl << std::flush;
+    std::cerr << "[INFO ] <Tests::parseInputString> Got lOutputStr1         = " << lOutputStr1 << std::endl << std::flush;
 
     lOutputStr2 = lParser.outputString();
-    std::cerr << "[ERROR] <Tests::parseInputString> Got lOutputStr2         = " << lOutputStr2 << std::endl << std::flush;
-    std::cerr << "[ERROR] <Tests::parseInputString> Got lOutputFileContents = " << lOutputFileContents << std::endl << std::flush;
+    std::cerr << "[INFO ] <Tests::parseInputString> Got lOutputStr2         = " << lOutputStr2 << std::endl << std::flush;
+    std::cerr << "[INFO ] <Tests::parseInputString> Got lOutputFileContents = " << lOutputFileContents << std::endl << std::flush;
 
     assert(lOutputStr2 == lOutputStr1);
     assert(lExpectedStr == lOutputStr2);
@@ -429,9 +429,9 @@ int readFileTest1(const std::string &pInputFilePath1) {
 
     if(sReadFileTestExpectedStr1 != lReadStr) {
         std::cerr << "[ERROR] <readFileTest> sReadFileTestExpectedStr1 != lReadStr" << std::endl << std::flush;
-        std::cerr << "[ERROR] <readFileTest> sReadFileTestExpectedStr1 =" << std::endl << std::flush;
+        std::cerr << "[INFO ] <readFileTest> sReadFileTestExpectedStr1 =" << std::endl << std::flush;
         std::cerr << sReadFileTestExpectedStr1 << std::endl << std::flush;
-        std::cerr << "[ERROR] <readFileTest> lReadStr =" << std::endl << std::flush;
+        std::cerr << "[INFO ] <readFileTest> lReadStr =" << std::endl << std::flush;
         std::cerr << lReadStr << std::endl << std::flush;
     }
     assert(sReadFileTestExpectedStr1 == lReadStr);
@@ -450,9 +450,9 @@ int readFileTest2(const std::string &pInputFilePath2) {
 
     if(sReadFileTestExpectedStr1 != lReadStr) {
         std::cerr << "[ERROR] <readFileTest> sReadFileTestExpectedStr2 != lReadStr" << std::endl << std::flush;
-        std::cerr << "[ERROR] <readFileTest> sReadFileTestExpectedStr2 =" << std::endl << std::flush;
+        std::cerr << "[INFO ] <readFileTest> sReadFileTestExpectedStr2 =" << std::endl << std::flush;
         std::cerr << sReadFileTestExpectedStr2 << std::endl << std::flush;
-        std::cerr << "[ERROR] <readFileTest> lReadStr =" << std::endl << std::flush;
+        std::cerr << "[INFO ] <readFileTest> lReadStr =" << std::endl << std::flush;
         std::cerr << lReadStr << std::endl << std::flush;
     }
     assert(sReadFileTestExpectedStr2 == lReadStr);
@@ -463,6 +463,33 @@ int readFileTest2(const std::string &pInputFilePath2) {
 int readFileTest3(const std::string &pInputFilePath1, const std::string &pInputFilePath2) {
     readFileTest1(pInputFilePath1);
     readFileTest2(pInputFilePath2);
+
+    return 0;
+}
+
+int readFileTest4(const std::string &pInputFilePath, const std::string &pExpectedStr) {
+    FileFiller lParser;
+
+    /* Read the file */
+    lParser.readFile(&pInputFilePath);
+
+    /* Get the file contents */
+    std::string lReadStr = lParser.inputString();
+
+    if(pExpectedStr != lReadStr) {
+        std::cerr << "[ERROR] <readFileTest> pExpectedStr != lReadStr" << std::endl << std::flush;
+        std::cerr << "[INFO ] <readFileTest> pExpectedStr =" << std::endl << std::flush;
+        std::cerr << pExpectedStr << std::endl << std::flush;
+        std::cerr << "[INFO ] <readFileTest> lReadStr =" << std::endl << std::flush;
+        std::cerr << lReadStr << std::endl << std::flush;
+    }
+    assert(pExpectedStr == lReadStr);
+
+    /* Read with the UT readFile function */
+    std::string lUTReadFileStr = "";
+    assert(0 == readFile(pInputFilePath, lUTReadFileStr));
+    assert(pExpectedStr == lUTReadFileStr);
+    assert(lReadStr == lUTReadFileStr);
 
     return 0;
 }
@@ -539,6 +566,12 @@ int main(const int argc, const char * const * const argv) {
             break;
         case 18:
             lResult = readFileTest3(std::string(argv[2U]), std::string(argv[3U]));
+            break;
+        case 19:
+            lResult = readFileTest4(std::string(argv[2U]), sReadFileTestExpectedStr1);
+            break;
+        case 20:
+            lResult = readFileTest4(std::string(argv[2U]), sReadFileTestExpectedStr2);
             break;
         default:
             (void)lResult;
