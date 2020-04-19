@@ -81,32 +81,33 @@ static int readFile(const std::string &pFilePath, std::string &pOut) {
         std::cerr << "[ERROR] <Tests::readFile> Failed to open the input file" << std::endl;
         return -1;
     }
+    
+    /* Temporary string to hold the contents of the file */
+    std::string lContents; /* Not initialized on purpose */
 
     /* Get lenght of the file */
     lIFS.seekg(0, lIFS.end);
-    const int lFileLength = lIFS.tellg();
+
+    /* Change the allocated memory size for the content string */
+    lContents.resize(lIFS.tellg());
 
     /* Reset the position of the next character to the beginning of the file */
     lIFS.seekg(0, lIFS.beg);
 
     /* Read the whole file and set the contents as our input string */
     {
-        char *lBuf = (char *)malloc(lFileLength);
-        lIFS.read(lBuf, lFileLength);
+        lIFS.read(&lContents[0U], lContents.size());
         if(!lIFS) {
-            std::cerr << "[ERROR] <Tests::readFile> Error occured while reading file contents" << std::endl;
-
-            /* Free the allocated memory */
-            free(lBuf);
+            std::cerr << "[ERROR] <FileFiller::parseFile> Error occured while reading file contents" << std::endl;
 
             /* Close the input file */
             lIFS.close();
+
             return -1;
         }
-        pOut = std::string(lBuf);
 
-        /* Free the allocated memory */
-        free(lBuf);
+        /* Set the contents of the file as the input string */
+        pOut = lContents;
     }
 
     /* Close the input file */
