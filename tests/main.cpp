@@ -24,6 +24,40 @@
 /* Notes ----------------------------------------------- */
 
 /* Variable declaration -------------------------------- */
+static const std::string sReadFileTestExpectedStr1 = R"=====(/*
+ * @brief Generated OD Object values
+ * 
+ * @file OSCOGenOD_Values.c
+ */
+
+/* Includes -------------------------------------------- */
+/* OSCO OD module */
+#include "OSCOOD.h"
+
+/* OSCO public includes */
+#include "OSCOTypes.h"
+
+/* Min value declarations -------------------------- */
+@@VALUE_ARRAYS@@)=====";
+
+static const std::string sReadFileTestExpectedStr2 = R"=====(/*
+ * @brief Generated OD Object Max values
+ * 
+ * @file OSCOGenOD_MaxValues.c
+ */
+
+/* Includes -------------------------------------------- */
+/* OSCO OD module */
+#include "OSCOOD.h"
+
+/* Generated includes */
+#include "OSCOGenNodeID.h"
+
+/* OSCO public includes */
+#include "OSCOTypes.h"
+
+/* Max value declarations -------------------------- */
+@@VALUE_ARRAYS@@)=====";
 
 /* Type definitions ------------------------------------ */
 
@@ -384,6 +418,55 @@ int removeLineTest(const std::string &pInputFilePath,
     return 0;
 }
 
+int readFileTest1(const std::string &pInputFilePath1) {
+    FileFiller lParser;
+
+    /* Read the file */
+    lParser.readFile(&pInputFilePath1);
+
+    /* Get the file contents */
+    std::string lReadStr = lParser.inputString();
+
+    if(sReadFileTestExpectedStr1 != lReadStr) {
+        std::cerr << "[ERROR] <readFileTest> sReadFileTestExpectedStr1 != lReadStr" << std::endl << std::flush;
+        std::cerr << "[ERROR] <readFileTest> sReadFileTestExpectedStr1 =" << std::endl << std::flush;
+        std::cerr << sReadFileTestExpectedStr1 << std::endl << std::flush;
+        std::cerr << "[ERROR] <readFileTest> lReadStr =" << std::endl << std::flush;
+        std::cerr << lReadStr << std::endl << std::flush;
+    }
+    assert(sReadFileTestExpectedStr1 == lReadStr);
+
+    return 0;
+}
+
+int readFileTest2(const std::string &pInputFilePath2) {
+    FileFiller lParser;
+
+    /* Read the file */
+    lParser.readFile(&pInputFilePath2);
+
+    /* Get the file contents */
+    std::string lReadStr = lParser.inputString();
+
+    if(sReadFileTestExpectedStr1 != lReadStr) {
+        std::cerr << "[ERROR] <readFileTest> sReadFileTestExpectedStr2 != lReadStr" << std::endl << std::flush;
+        std::cerr << "[ERROR] <readFileTest> sReadFileTestExpectedStr2 =" << std::endl << std::flush;
+        std::cerr << sReadFileTestExpectedStr2 << std::endl << std::flush;
+        std::cerr << "[ERROR] <readFileTest> lReadStr =" << std::endl << std::flush;
+        std::cerr << lReadStr << std::endl << std::flush;
+    }
+    assert(sReadFileTestExpectedStr2 == lReadStr);
+
+    return 0;
+}
+
+int readFileTest3(const std::string &pInputFilePath1, const std::string &pInputFilePath2) {
+    readFileTest1(pInputFilePath1);
+    readFileTest2(pInputFilePath2);
+
+    return 0;
+}
+
 /* ----------------------------------------------------- */
 /* Main test routine ----------------------------------- */
 /* ----------------------------------------------------- */
@@ -403,47 +486,59 @@ int main(const int argc, const char * const * const argv) {
 
     /* Executing test */
     switch (lTestNum) {
-        case 0:
+        case 1:
             lResult = singleTagParsingTest();
             break;
-        case 1:
+        case 2:
             lResult = duplicateTagParsingTest();
             break;
-        case 2:
+        case 3:
             lResult = multipleTagParsingTest();
             break;
-        case 3:
+        case 4:
             lResult = multipleTagParsingTest2();
             break;
-        case 4:
+        case 5:
             lResult = fileMultipleTagParsingTest(std::string(argv[2U]), std::string(argv[3U]), std::string(argv[4U]));
             break;
-        case 5:
+        case 6:
             lResult = fileMultipleLinesParsingTest(std::string(argv[2U]), std::string(argv[3U]), std::string(argv[4U]));
             break;
-        case 6:
+        case 7:
             lResult = buildTagMapParsingTest();
             break;
-        case 7:
+        case 8:
             lResult = buildTagMapFileParsingTest(std::string(argv[2U]));
             break;
-        case 8:
+        case 9:
             lResult = tagMapFileParsingAndOutputGenerationTest(std::string(argv[2U]), std::string(argv[3U]), std::string(argv[4U]), std::string(argv[5U]));
             break;
-        case 9: /* Missing EoL semi-colon */
+        case 10: /* Missing EoL semi-colon */
             lResult = tagMapFileParsingAndOutputGenerationTest(std::string(argv[2U]), std::string(argv[3U]), std::string(argv[4U]), std::string(argv[5U]));
             break;
-        case 10: /* Missing tag */
+        case 11: /* Missing tag */
             lResult = tagMapFileParsingAndOutputGenerationTest_missingTag(std::string(argv[2U]));
             break;
-        case 11: /* Missing value w/ semi-colon */
+        case 12: /* Missing value w/ semi-colon */
             lResult = tagMapFileParsingAndOutputGenerationTest(std::string(argv[2U]), std::string(argv[3U]), std::string(argv[4U]), std::string(argv[5U]));
             break;
-        case 12: /* Missing value w/o semi-colon */
+        case 13: /* Missing value w/o semi-colon */
             lResult = tagMapFileParsingAndOutputGenerationTest(std::string(argv[2U]), std::string(argv[3U]), std::string(argv[4U]), std::string(argv[5U]));
             break;
-        case 13: /* REMOVE_LINE */
+        case 14: /* REMOVE_LINE */
             lResult = removeLineTest(std::string(argv[2U]), std::string(argv[3U]), std::string(argv[4U]), std::string(argv[5U]));
+            break;
+        case 15: /* REMOVE_LINE EoF NL */
+            lResult = removeLineTest(std::string(argv[2U]), std::string(argv[3U]), std::string(argv[4U]), std::string(argv[5U]));
+            break;
+        case 16:
+            lResult = readFileTest1(std::string(argv[2U]));
+            break;
+        case 17:
+            lResult = readFileTest2(std::string(argv[2U]));
+            break;
+        case 18:
+            lResult = readFileTest3(std::string(argv[2U]), std::string(argv[3U]));
             break;
         default:
             (void)lResult;
