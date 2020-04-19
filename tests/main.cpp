@@ -494,6 +494,33 @@ int readFileTest4(const std::string &pInputFilePath, const std::string &pExpecte
     return 0;
 }
 
+int UTreadFileTest1(const std::string &pInputFilePath, const std::string &pExpectedStr) {
+    /* Read the file */
+    std::string lReadOutput = "";
+    assert(0 == readFile(pInputFilePath, lReadOutput));
+    if(pExpectedStr != lReadOutput) {
+        std::cerr << "[ERROR] <readFileTest> pExpectedStr != lReadOutput" << std::endl << std::flush;
+        std::cerr << "[INFO ] <readFileTest> pExpectedStr =" << std::endl << std::flush;
+        std::cerr << pExpectedStr << std::endl << std::flush;
+        std::cerr << "[INFO ] <readFileTest> lReadOutput =" << std::endl << std::flush;
+        std::cerr << lReadOutput << std::endl << std::flush;
+    }
+    assert(pExpectedStr == lReadOutput);
+
+    return 0;
+}
+
+int UTreadFileTest2(const std::string &pInputFilePath1,
+    const std::string &pInputFilePath2,
+    const std::string &pExpectedStr1,
+    const std::string &pExpectedStr2)
+{
+    UTreadFileTest1(pInputFilePath1, pExpectedStr1);
+    UTreadFileTest1(pInputFilePath2, pExpectedStr2);
+
+    return 0;
+}
+
 /* ----------------------------------------------------- */
 /* Main test routine ----------------------------------- */
 /* ----------------------------------------------------- */
@@ -572,6 +599,15 @@ int main(const int argc, const char * const * const argv) {
             break;
         case 20:
             lResult = readFileTest4(std::string(argv[2U]), sReadFileTestExpectedStr2);
+            break;
+        case 21:
+            lResult = UTreadFileTest1(std::string(argv[2U]), sReadFileTestExpectedStr1);
+            break;
+        case 22:
+            lResult = UTreadFileTest1(std::string(argv[2U]), sReadFileTestExpectedStr2);
+            break;
+        case 23:
+            lResult = UTreadFileTest2(std::string(argv[2U]), std::string(argv[3U]), sReadFileTestExpectedStr1, sReadFileTestExpectedStr2);
             break;
         default:
             (void)lResult;

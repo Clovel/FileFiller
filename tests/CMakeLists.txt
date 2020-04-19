@@ -148,3 +148,19 @@ add_test(${CMAKE_PROJECT_NAME}_readFileTest4-2 ${CMAKE_PROJECT_NAME}-tests
     20
     ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/readFile/OSCOGenOD_MaxValues.in.c
 )
+
+add_test(${CMAKE_PROJECT_NAME}_UTreadFileTest1-1 ${CMAKE_PROJECT_NAME}-tests
+    21
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/readFile/OSCOGenOD_Values.in.c
+)
+
+add_test(${CMAKE_PROJECT_NAME}_UTreadFileTest1-2 ${CMAKE_PROJECT_NAME}-tests
+    22
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/readFile/OSCOGenOD_MaxValues.in.c
+)
+
+add_test(${CMAKE_PROJECT_NAME}_UTreadFileTest2 ${CMAKE_PROJECT_NAME}-tests
+    23
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/readFile/OSCOGenOD_Values.in.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../resources/tests/readFile/OSCOGenOD_MaxValues.in.c
+)
